@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<members>
+  <member>
+    <username>test</username>
+    <password>test</password>
+  </member>
+  <member>
+    <username>test2</username>
+    <password>test</password>
+  </member>
+</members>
