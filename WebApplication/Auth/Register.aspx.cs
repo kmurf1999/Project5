@@ -7,6 +7,7 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
+using Encryption;
 
 namespace WebApplication.Auth
 {
@@ -21,6 +22,7 @@ namespace WebApplication.Auth
         {
             string username = usernameInput.Text;
             string password = passwordInput.Text;
+            string hash = Hasher.hash(password);
             bool alreadyExists = false;
 
             XmlDataDocument xmldoc = new XmlDataDocument();
@@ -41,11 +43,14 @@ namespace WebApplication.Auth
             }
             XmlNode usernameNode = xmldoc.CreateNode(XmlNodeType.Element, "username", null);
             usernameNode.InnerText = username;
-            XmlNode passwordNode = xmldoc.CreateNode(XmlNodeType.Element, "password", null);
-            passwordNode.InnerText = password;
+            XmlNode passwordNode = xmldoc.CreateNode(XmlNodeType.Element, "hash", null);
+            passwordNode.InnerText = hash;
+            XmlNode groupNode = xmldoc.CreateNode(XmlNodeType.Element, "group", null);
+            groupNode.InnerText = "Member";
             XmlNode memberNode = xmldoc.CreateNode(XmlNodeType.Element, "member", null);
             memberNode.AppendChild(usernameNode);
             memberNode.AppendChild(passwordNode);
+            memberNode.AppendChild(groupNode);
 
             XmlNode memberRoot = xmldoc.SelectSingleNode("members", null);
 

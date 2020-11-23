@@ -1,0 +1,6 @@
+C:\Users\MDonn\OneDrive\Desktop\Project5\Encryption\bin\Debug\Encryption.dll
+C:\Users\MDonn\OneDrive\Desktop\Project5\Encryption\bin\Debug\Encryption.pdb
+C:\Users\MDonn\OneDrive\Desktop\Project5\Encryption\obj\Debug\Encryption.csprojAssemblyReference.cache
+C:\Users\MDonn\OneDrive\Desktop\Project5\Encryption\obj\Debug\Encryption.csproj.CoreCompileInputs.cache
+C:\Users\MDonn\OneDrive\Desktop\Project5\Encryption\obj\Debug\Encryption.dll
+C:\Users\MDonn\OneDrive\Desktop\Project5\Encryption\obj\Debug\Encryption.pdb

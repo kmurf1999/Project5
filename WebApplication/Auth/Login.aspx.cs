@@ -7,6 +7,7 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
+using Encryption;
 
 namespace WebApplication.Auth
 {
@@ -23,6 +24,7 @@ namespace WebApplication.Auth
             bool success = false;
             string username = usernameInput.Text;
             string password = passwordInput.Text;
+            string hash = Hasher.hash(password);
             // open member document
             XmlDataDocument xmldoc = new XmlDataDocument();
             XmlNodeList xmlnode;
@@ -32,8 +34,8 @@ namespace WebApplication.Auth
             for (int i=0; i < xmlnode.Count; i++)
             {
                 string u = xmlnode[i].ChildNodes.Item(0).InnerText.Trim();
-                string p = xmlnode[i].ChildNodes.Item(1).InnerText.Trim();
-                if (username == u && password == p)
+                string h = xmlnode[i].ChildNodes.Item(1).InnerText.Trim();
+                if (username == u && hash == h)
                 {
                     success = true;
                     break;
