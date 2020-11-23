@@ -7,7 +7,6 @@ using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Xml;
-using Encryption;
 
 namespace WebApplication.Auth
 {
@@ -15,37 +14,47 @@ namespace WebApplication.Auth
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Console.WriteLine(Request.IsAuthenticated);
+            passwordError.Visible = false;
+            usernameError.Visible = false;
+            CaptchaError.Visible = false;
+            if (User.Identity.IsAuthenticated)
+            {
+                FormsAuthentication.RedirectFromLoginPage(User.Identity.Name, false);
+            }
         }
 
         protected void DoLogin(object sender, EventArgs e)
         {
+            usernameError.Visible = false;
+            passwordError.Visible = false;
+            CaptchaError.Visible = false;
+
+            bool isHuman = LoginCaptcha.Validate(CaptchaCodeTextBox.Text);
+            CaptchaCodeTextBox.Text = null;
+
+            if (!isHuman)
+            {
+                CaptchaError.Text = "Invalid code";
+                CaptchaError.Visible = true;
+                return;
+            }
+           
             // perform login
-            bool success = false;
             string username = usernameInput.Text;
             string password = passwordInput.Text;
-            string hash = Hasher.hash(password);
-            // open member document
-            XmlDataDocument xmldoc = new XmlDataDocument();
-            XmlNodeList xmlnode;
-            FileStream fs = new FileStream(Server.MapPath("~/Members.xml"), FileMode.Open, FileAccess.Read);
-            xmldoc.Load(fs);
-            xmlnode = xmldoc.GetElementsByTagName("member");
-            for (int i=0; i < xmlnode.Count; i++)
-            {
-                string u = xmlnode[i].ChildNodes.Item(0).InnerText.Trim();
-                string h = xmlnode[i].ChildNodes.Item(1).InnerText.Trim();
-                if (username == u && hash == h)
-                {
-                    success = true;
-                    break;
-                }
-            }
+            Auth auth = new Auth(Server.MapPath("~/Members.xml"));
+            bool success = auth.Login(username, password);
             // add login cookie
             if (success)
             {
                 FormsAuthentication.SetAuthCookie(username, false);
                 FormsAuthentication.RedirectFromLoginPage(username, false);
+            } else
+            {
+                usernameError.Text = "Invalid username";
+                passwordError.Text = "Invalid password";
+                passwordError.Visible = true;
+                usernameError.Visible = true;
             }
         }
 

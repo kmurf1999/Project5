@@ -2,14 +2,12 @@
 <members>
   <member>
     <username>test</username>
-    <password>test</password>
+    <hash>9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08</hash>
+    <group>Member</group>
   </member>
   <member>
     <username>test2</username>
-    <password>test</password>
-  </member>
-  <member>
-    <username>test123</username>
     <hash>9F86D081884C7D659A2FEAA0C55AD015A3BF4F1B2B0B822CD15D6C15B0F00A08</hash>
+    <group>Member</group>
   </member>
 </members>

@@ -15,52 +15,66 @@ namespace WebApplication.Auth
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            passwordError.Visible = false;
+            passwordAgainError.Visible = false;
+            usernameError.Visible = false;
+            CaptchaError.Visible = false;
+            if (User.Identity.IsAuthenticated)
+            {
+                FormsAuthentication.RedirectFromLoginPage(User.Identity.Name, false);
+            }
         }
 
         protected void DoSignup(object sender, EventArgs e)
         {
-            string username = usernameInput.Text;
-            string password = passwordInput.Text;
-            string hash = Hasher.hash(password);
-            bool alreadyExists = false;
+            usernameError.Visible = false;
+            passwordError.Visible = false;
+            passwordAgainError.Visible = false;
+            CaptchaError.Visible = false;
 
-            XmlDataDocument xmldoc = new XmlDataDocument();
-            xmldoc.Load(Server.MapPath("~/Members.xml"));
-            XmlNodeList memberNodes = xmldoc.GetElementsByTagName("member");
-            for (int i = 0; i < memberNodes.Count; i++)
+            bool isHuman = RegisterCaptcha.Validate(CaptchaCodeTextBox.Text);
+            CaptchaCodeTextBox.Text = null;
+
+            if (!isHuman)
             {
-                string u = memberNodes[i].ChildNodes.Item(0).InnerText.Trim();
-                if (username == u)
-                {
-                    alreadyExists = true;
-                    break;
-                }
-            }
-            if (alreadyExists)
-            {
+                CaptchaCodeTextBox.Text = "Invalid code";
+                CaptchaCodeTextBox.Visible = true;
                 return;
             }
-            XmlNode usernameNode = xmldoc.CreateNode(XmlNodeType.Element, "username", null);
-            usernameNode.InnerText = username;
-            XmlNode passwordNode = xmldoc.CreateNode(XmlNodeType.Element, "hash", null);
-            passwordNode.InnerText = hash;
-            XmlNode groupNode = xmldoc.CreateNode(XmlNodeType.Element, "group", null);
-            groupNode.InnerText = "Member";
-            XmlNode memberNode = xmldoc.CreateNode(XmlNodeType.Element, "member", null);
-            memberNode.AppendChild(usernameNode);
-            memberNode.AppendChild(passwordNode);
-            memberNode.AppendChild(groupNode);
 
-            XmlNode memberRoot = xmldoc.SelectSingleNode("members", null);
+            string username = usernameInput.Text;
+            string password = passwordInput.Text;
+            string passwordAgain = passwordAgainInput.Text;
+            Auth auth = new Auth(Server.MapPath("~/Members.xml"));
+            
+            if (auth.MemberExists(username))
+            {
+                usernameError.Text = "This username is already in use";
+                usernameError.Visible = true;
+                return;
+            }
 
-            memberRoot.AppendChild(memberNode);
+            if (password != passwordAgain)
+            {
+                passwordAgainError.Text = "passwords don't match";
+                passwordAgainError.Visible = true;
+                return;
+            }
 
-            xmldoc.Save(Server.MapPath("~/Members.xml"));
+            bool success = auth.Register(username, password, "Member");
+            if (success)
+            {
+                FormsAuthentication.SetAuthCookie(username, false);
+                FormsAuthentication.RedirectFromLoginPage(username, false);
+            } else
+            {
+                usernameError.Text = "Unknown error";
+                passwordError.Text = "Unknown error";
+                usernameError.Visible = true;
+                passwordError.Visible = true;
+            }
 
 
-            FormsAuthentication.SetAuthCookie(username, false);
-            FormsAuthentication.RedirectFromLoginPage(username, false);
         }
     }
 }
