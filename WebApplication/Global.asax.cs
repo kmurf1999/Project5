@@ -28,6 +28,12 @@ namespace WebApplication
 
                 doc.Save(Server.MapPath("~/Members.xml"));
             }
+            // create staff member if it doesn't exist
+            Auth.Auth auth = new Auth.Auth(Server.MapPath("~/Members.xml"));
+            if (!auth.MemberExists("TA"))
+            {
+                auth.Register("TA", "Cse445ta!", "Staff");
+            }
         }
     }
 }

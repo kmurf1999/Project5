@@ -17,8 +17,34 @@ namespace WebApplication.Member
             {
                 Response.Redirect("~/Auth/Login");
             }
+        }
 
+        public void FilterWords(object sender, EventArgs e)
+        {
+            WordFilter.WordFilterServiceClient client = new WordFilter.WordFilterServiceClient();
 
+            string filteredWords = client.WordFilter(WordFilterInput.Text);
+            WordFilterOutput.Text = filteredWords;
+        }
+
+        public void GetWeather(object sender, EventArgs e)
+        {
+            Weather5day.WeatherServiceClient client = new Weather5day.WeatherServiceClient();
+
+            try
+            {
+                string[] forecast = client.Weather5day(WeatherServiceInput.Text);
+
+                WeatherServiceOutput1.Text = forecast[0];
+                WeatherServiceOutput2.Text = forecast[1];
+                WeatherServiceOutput3.Text = forecast[2];
+                WeatherServiceOutput4.Text = forecast[3];
+                WeatherServiceOutput5.Text = forecast[4];
+            } catch
+            {
+                System.Diagnostics.Debug.WriteLine("fail");
+            }
+ 
         }
     }
 }

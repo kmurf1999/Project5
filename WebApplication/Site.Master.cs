@@ -12,7 +12,7 @@ namespace WebApplication
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+     
         }
 
         public void DoLogout(object sender, EventArgs e)
