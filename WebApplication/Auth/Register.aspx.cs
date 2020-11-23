@@ -37,8 +37,8 @@ namespace WebApplication.Auth
 
             if (!isHuman)
             {
-                CaptchaCodeTextBox.Text = "Invalid code";
-                CaptchaCodeTextBox.Visible = true;
+                CaptchaError.Text = "Invalid code";
+                CaptchaError.Visible = true;
                 return;
             }
 
