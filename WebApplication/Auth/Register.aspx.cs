@@ -74,7 +74,6 @@ namespace WebApplication.Auth
                 passwordError.Visible = true;
             }
 
-
         }
     }
 }

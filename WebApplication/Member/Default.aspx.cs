@@ -15,7 +15,10 @@ namespace WebApplication.Member
             Auth.Auth auth = new Auth.Auth(Server.MapPath("~/Members.xml"));
             if (!User.Identity.IsAuthenticated || auth.GetRole(User.Identity.Name) != "Member")
             {
-                Response.Redirect("~/Auth/Login");
+                Response.Redirect("~/Auth/Login.aspx", false);
+                HttpContext.Current.Response.Flush(); // Sends all currently buffered output to the client.
+                HttpContext.Current.Response.SuppressContent = true;
+                Context.ApplicationInstance.CompleteRequest();
             }
         }
 
@@ -29,10 +32,9 @@ namespace WebApplication.Member
 
         public void GetWeather(object sender, EventArgs e)
         {
-            Weather5day.WeatherServiceClient client = new Weather5day.WeatherServiceClient();
-
             try
             {
+                Weather5day.WeatherServiceClient client = new Weather5day.WeatherServiceClient();
                 string[] forecast = client.Weather5day(WeatherServiceInput.Text);
 
                 WeatherServiceOutput1.Text = forecast[0];
@@ -40,11 +42,12 @@ namespace WebApplication.Member
                 WeatherServiceOutput3.Text = forecast[2];
                 WeatherServiceOutput4.Text = forecast[3];
                 WeatherServiceOutput5.Text = forecast[4];
-            } catch
+            } catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine("fail");
+                System.Diagnostics.Debug.WriteLine(ex.Message);
             }
- 
+
         }
     }
 }

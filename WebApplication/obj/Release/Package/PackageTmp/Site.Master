@@ -55,8 +55,8 @@
 
                         <% } %>
                         <% if (!Request.IsAuthenticated) { %>
-                           <li><a runat="server" href="~/Auth/Login">Login</a></li>
-                           <li><a runat="server" href="~/Auth/Register">Register</a></li>
+                           <li><a runat="server" href="~/Auth/Login.aspx">Login</a></li>
+                           <li><a runat="server" href="~/Auth/Register.aspx">Register</a></li>
                         <% } %>
 
                     </ul>

@@ -14,8 +14,20 @@ namespace WebApplication.Staff
             Auth.Auth auth = new Auth.Auth(Server.MapPath("~/Members.xml"));
             if (!User.Identity.IsAuthenticated || auth.GetRole(User.Identity.Name) != "Staff")
             {
-                Response.Redirect("~/Auth/Login");
+                Response.Redirect("~/Auth/Login.aspx", false);
+                HttpContext.Current.Response.Flush(); // Sends all currently buffered output to the client.
+                HttpContext.Current.Response.SuppressContent = true;
+                Context.ApplicationInstance.CompleteRequest();
             }
+        }
+
+        public void CountWords(object sender, EventArgs e)
+        {
+            WordCount.ServiceClient client = new WordCount.ServiceClient();
+
+            string text = WordCountInput.Text;
+
+            WordCountOutput.Text = client.GetWord(text);
         }
     }
 }

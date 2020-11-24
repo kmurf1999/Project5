@@ -40,33 +40,33 @@
         <p>This service is used to filter out stop words from a block of text. Stop word are words that don't matter like "and", "or", and "but".</p>
         <p>Try out this service by typing some text into the input box below and then clicking "Filter Words"</p>
         <div class="row service-body">
-            <div class="col-md-6">
+            <div class="col-md-6" style="margin: 10px 0">
                 <div><strong>Input</strong></div>
                 <asp:TextBox CssClass="wordfilter-textarea" runat="server" ID="WordFilterInput" TextMode="MultiLine"></asp:TextBox>
 
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" style="margin: 10px 0">
                 <div><strong>Output</strong></div>
                 <asp:TextBox CssClass="wordfilter-textarea" runat="server" ID="WordFilterOutput" TextMode="MultiLine"></asp:TextBox>
             </div>
         </div>
-        <asp:Button Text="Filter Words" runat="server" ID="WordFilterButton" onClick="FilterWords" CssClass="btn btn-primary" />
+        <asp:Button type="button" Text="Filter Words" runat="server" ID="WordFilterButton" onClick="FilterWords" CssClass="btn btn-primary" />
     </div>
 
-        <div class="section service-container" id="WeatherService">
+    <div class="section service-container" id="WeatherService">
         <h2>Weather Service</h2>
         <p><strong>Service Reference:</strong> <a href="http://webstrar83.fulton.asu.edu/Page2/Service.svc?wsdl">webstrar83.fulton.asu.edu/Page2/Service.svc?wsdl</a></p>
         <p>This service allows users to easily get a 5 day average temperature forecast for a given zipcode</p>
         <p>Try it out by entering a zipcode below and then clicking "Get Weather"</p>
         
         <div class="row service-body">
-            <div class="col-md-6">
+            <div class="col-md-6" style="margin: 10px 0">
                 <asp:Label runat="server" ID="WeatherServiceInputLabel" AssociatedControlID="WeatherServiceInput">Enter zipcode</asp:Label>
                 <asp:TextBox style="margin-bottom: 10px;" runat="server" CssClass="form-control" ID="WeatherServiceInput" />
-                <asp:Button Text="Get Weather" runat="server" ID="WeatherServiceButton" onClick="GetWeather" CssClass="btn btn-primary" />
+                <asp:Button type="button" Text="Get Weather" runat="server" ID="WeatherServiceButton" onClick="GetWeather" CssClass="btn btn-primary" />
 
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" style="margin: 10px 0">
                 <ul class="list-group">
                 <li class="list-group-item"><strong>Day 1: </strong><asp:Label runat="server" ID="WeatherServiceOutput1"></asp:Label></li>
                 <li class="list-group-item"><strong>Day 2: </strong><asp:Label runat="server" ID="WeatherServiceOutput2"></asp:Label></li>
